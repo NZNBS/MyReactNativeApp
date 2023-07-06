@@ -1,17 +1,8 @@
 import { useState } from 'react';
-import {
-  Modal,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  StatusBar,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import { Modal, Text, View, Button, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 
+import InputProduct from './components/input-product';
+import ProductItem from './components/product-item';
 import { styles } from './styles';
 
 export default function App() {
@@ -55,37 +46,19 @@ export default function App() {
     setIsVisible(false);
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => onHandlerModal(item)} style={styles.containerItem}>
-      <Text style={styles.listItem}>{item.value}</Text>
-      <Text style={styles.icon}>X</Text>
-    </TouchableOpacity>
-  );
+  const renderItem = ({ item }) => <ProductItem item={item} onPressItem={onHandlerModal} />;
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={[styles.input, { borderColor }]}
-            placeholder="Añade un nuevo producto"
-            autoCapitalize="none"
-            autoCorrect={false}
-            cursorColor="#424D9E"
-            selectionColor="#D4D7ED"
-            placeholderTextColor="#C5C9E7"
-            onFocus={onHandlerFocus}
-            onBlur={onHandlerBlur}
-            onChangeText={onHandlerChangeText}
-            value={product}
-          />
-          <Button
-            disabled={product.length === 0}
-            title="Crear"
-            color="#424D9E"
-            onPress={onHandlerCreateProduct}
-          />
-        </View>
+        <InputProduct
+          borderColor={borderColor}
+          onHandlerFocus={onHandlerFocus}
+          onHandlerBlur={onHandlerBlur}
+          onHandlerChangeText={onHandlerChangeText}
+          product={product}
+          onHandlerCreateProduct={onHandlerCreateProduct}
+        />
         <FlatList
           data={products}
           renderItem={renderItem}
